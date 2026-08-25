@@ -1,0 +1,47 @@
+import streamlit as st
+
+st.title("🖱️ CLICKER GAME")
+
+# Set up the game
+if "coins" not in st.session_state:
+    st.session_state.coins = 0
+
+if "per_click" not in st.session_state:
+    st.session_state.per_click = 1
+
+if "upgrade_cost" not in st.session_state:
+    st.session_state.upgrade_cost = 10
+
+
+# CLICK BUTTON
+if st.button("🖱️ CLICK ME!", use_container_width=True):
+    st.session_state.coins += st.session_state.per_click
+    st.rerun()
+
+
+# Show score
+st.header(f"🪙 Coins: {st.session_state.coins}")
+st.write(f"💪 Coins per click: {st.session_state.per_click}")
+
+
+# UPGRADE
+st.subheader("🛒 Shop")
+
+st.write(f"Upgrade cost: 🪙 {st.session_state.upgrade_cost}")
+
+if st.button("⬆️ Buy Upgrade", use_container_width=True):
+
+    if st.session_state.coins >= st.session_state.upgrade_cost:
+
+        st.session_state.coins -= st.session_state.upgrade_cost
+        st.session_state.per_click += 1
+
+        # Make the next upgrade more expensive
+        st.session_state.upgrade_cost = int(
+            st.session_state.upgrade_cost * 1.5
+        )
+
+        st.success("🎉 Upgrade purchased!")
+
+    else:
+        st.error("❌ You don't have enough coins!")
