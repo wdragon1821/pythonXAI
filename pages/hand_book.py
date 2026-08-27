@@ -2786,6 +2786,1208 @@ i == "a"
 
 with st.expander("課堂筆記 CLASS 4"):
     '''
+    # 🐍 Python 今日課程筆記
+
+## 🔁 while 迴圈、🎲 random、📖 字典、🖼️ 圖片與 Streamlit
+
+今天學的東西很多！而且已經可以把前面學過的 **if、for、List、Streamlit** 和今天的新東西組合起來，做出真正的小遊戲了！🎮
+
+---
+
+# 1. 🔁 `while` 迴圈
+
+`while` 的意思可以想成：
+
+> **只要條件是 True，就一直做下去！**
+
+基本寫法：
+
+```python
+while 條件:
+    要做的事情
+```
+
+例如：
+
+```python
+i = 0
+
+while i < 5:
+    print(i)
+    i += 1
+```
+
+結果：
+
+```text
+0
+1
+2
+3
+4
+```
+
+### 🧠 發生了什麼？
+
+一開始：
+
+```text
+i = 0
+```
+
+Python 檢查：
+
+```text
+i < 5
+0 < 5 → True ✅
+```
+
+所以執行一次。
+
+接著：
+
+```python
+i += 1
+```
+
+就是：
+
+```python
+i = i + 1
+```
+
+所以：
+
+```text
+0 → 1 → 2 → 3 → 4 → 5
+```
+
+當：
+
+```text
+5 < 5 → False ❌
+```
+
+迴圈就停止了。
+
+---
+
+# 2. 🛑 `break`：直接跳出迴圈
+
+`break` 就像一個：
+
+> 🚪 **逃生門**
+
+遇到 `break`，直接離開迴圈。
+
+例如：
+
+```python
+i = 0
+
+while i < 5:
+    print(i)
+
+    if i == 3:
+        break
+
+    i += 1
+```
+
+結果：
+
+```text
+0
+1
+2
+3
+```
+
+因為 `i == 3` 的時候：
+
+```python
+break
+```
+
+就把迴圈結束了。
+
+---
+
+# 3. `break` 也可以放在 `for`
+
+不只有 `while` 可以用 `break`。
+
+```python
+for i in range(5):
+
+    print(i)
+
+    if i == 3:
+        break
+```
+
+結果：
+
+```text
+0
+1
+2
+3
+```
+
+所以：
+
+> 🔁 `for` 和 `while` 都可以使用 `break`。
+
+---
+
+# 4. 🎲 `random`：讓 Python 隨機抽東西
+
+今天開始學會讓 Python：
+
+> 🎰 **隨機選數字！**
+
+首先：
+
+```python
+import random
+```
+
+意思是：
+
+> 把 Python 的 `random` 隨機功能拿進來使用。
+
+---
+
+# 5. 🎲 `random.randrange()`
+
+```python
+random.randrange()
+```
+
+可以想成：
+
+> 從一個數字範圍裡「抽籤」。
+
+例如：
+
+```python
+print(random.randrange(7))
+```
+
+可能得到：
+
+```text
+0
+1
+2
+3
+4
+5
+6
+```
+
+⚠️ **7 不會被選到！**
+
+---
+
+## `randrange(開始, 結束)`
+
+```python
+random.randrange(1, 6)
+```
+
+可能得到：
+
+```text
+1、2、3、4、5
+```
+
+不會得到 `6`。
+
+---
+
+## `randrange(開始, 結束, 間隔)`
+
+例如：
+
+```python
+random.randrange(1, 6, 2)
+```
+
+可能得到：
+
+```text
+1、3、5
+```
+
+格式：
+
+```python
+random.randrange(開始, 結束, 間隔)
+```
+
+---
+
+# 6. 🎯 `random.randint()`
+
+這個也非常重要：
+
+```python
+random.randint(1, 6)
+```
+
+它可以抽：
+
+```text
+1、2、3、4、5、6
+```
+
+### ⭐ 和 `randrange()` 最大的差別
+
+```python
+random.randrange(1, 6)
+```
+
+➡️ `1～5`
+
+```python
+random.randint(1, 6)
+```
+
+➡️ `1～6`
+
+所以：
+
+> 🎲 `randint()` 的**結束數字也可以被抽到**。
+
+---
+
+# 7. 🎯 1～100 猜數字遊戲
+
+今天已經可以做出真正的小遊戲了！
+
+```python
+import random
+
+answer = random.randint(1, 100)
+
+low = 1
+high = 100
+
+print("🎯 Guess the Number!")
+
+while True:
+    print(f"Pick a number from {low} to {high}.")
+
+    number = int(input())
+
+    if number == answer:
+        print("🎉 Correct!")
+        break
+
+    elif number < answer:
+        print("⬆️ Higher!")
+        low = number
+
+    else:
+        print("⬇️ Lower!")
+        high = number
+```
+
+這裡一次用到了：
+
+```text
+🎲 random
+🔁 while
+🤔 if / elif / else
+🛑 break
+🧠 變數
+📝 input
+🔤 f-string
+```
+
+這就是把不同 Python 技能**組合起來**！🔥
+
+---
+
+# 8. 🌐 Streamlit 猜數字遊戲
+
+今天還把猜數字遊戲做成了網頁版！
+
+其中：
+
+```python
+ss = st.session_state
+```
+
+可以讓我們用比較短的方式使用：
+
+```python
+st.session_state
+```
+
+例如：
+
+```python
+if "ans" not in ss:
+    ss.ans = random.randint(1, 100)
+```
+
+意思是：
+
+> 如果還沒有答案，就隨機產生一個 1～100 的數字。
+
+---
+
+# 9. 🧠 `session_state` 的三個重要資料
+
+今天的遊戲有：
+
+```python
+ss.ans
+```
+
+➡️ 🤫 正確答案
+
+```python
+ss.min_num
+```
+
+➡️ 🔽 目前最小數字
+
+```python
+ss.max_num
+```
+
+➡️ 🔼 目前最大數字
+
+所以可以想成：
+
+```text
+🧠 session_state
+
+ans     → 🤫 秘密答案
+min_num → 🔽 最小範圍
+max_num → 🔼 最大範圍
+```
+
+---
+
+# 10. 🔢 `st.number_input()`
+
+今天也用到了：
+
+```python
+st.number_input()
+```
+
+讓玩家輸入數字。
+
+例如：
+
+```python
+num = st.number_input(
+    "請輸入數字",
+    min_value=1,
+    max_value=100,
+    step=1
+)
+```
+
+意思是：
+
+* `min_value` → 最小可以輸入多少
+* `max_value` → 最大可以輸入多少
+* `step` → 每次增加或減少多少
+
+---
+
+# 11. 🔄 `st.rerun()`
+
+今天的程式最後有：
+
+```python
+st.rerun
+```
+
+⚠️ 這裡要注意！
+
+如果你真的要**執行**重新整理，應該寫：
+
+```python
+st.rerun()
+```
+
+括號 `()` 很重要。
+
+它的意思是：
+
+> 🔄 重新執行 Streamlit 程式。
+
+---
+
+# 12. 📖 Dictionary 字典
+
+今天開始學另一種非常重要的資料：
+
+## `dict`
+
+Dictionary 中文叫：
+
+> 📖 **字典**
+
+它不是用 index 找資料，而是用：
+
+> 🔑 **key（鍵） → value（值）**
+
+例如：
+
+```python
+d = {
+    "a": 1,
+    "b": 2,
+    "c": 3
+}
+```
+
+可以想成：
+
+```text
+🔑 key       💎 value
+
+"a"    →      1
+"b"    →      2
+"c"    →      3
+```
+
+---
+
+# 13. 🔑 Key 和 Value
+
+### Key
+
+就是：
+
+> 🔑 找資料用的「名字」。
+
+例如：
+
+```text
+"a"
+"b"
+"c"
+```
+
+### Value
+
+就是：
+
+> 💎 真正存放的資料。
+
+例如：
+
+```text
+1
+2
+3
+```
+
+---
+
+# 14. ⭐ Dictionary 的重要規則
+
+### 🔑 Key 必須是唯一的
+
+不能有兩個完全相同的 key。
+
+### 💎 Value 可以重複
+
+例如：
+
+```python
+d = {
+    "apple": 10,
+    "banana": 10
+}
+```
+
+兩個 value 都是 `10` 沒問題。
+
+### 📦 Value 可以放很多不同東西
+
+Value 可以是：
+
+* 整數
+* 小數
+* 字串
+* List
+* 另一個 Dictionary
+* 等等
+
+---
+
+# 15. 🔍 取得 Dictionary 的 Keys
+
+使用：
+
+```python
+d.keys()
+```
+
+例如：
+
+```python
+print(d.keys())
+```
+
+可以取得所有 key。
+
+也可以用 `for`：
+
+```python
+for key in d.keys():
+    print(key)
+```
+
+---
+
+# 16. 💎 取得 Values
+
+使用：
+
+```python
+d.values()
+```
+
+例如：
+
+```python
+for value in d.values():
+    print(value)
+```
+
+就會一個一個取得 value。
+
+---
+
+# 17. 🔑💎 同時取得 Key 和 Value
+
+使用：
+
+```python
+d.items()
+```
+
+例如：
+
+```python
+for key, value in d.items():
+    print(key, value)
+```
+
+就可以同時拿到：
+
+```text
+key   value
+ a      1
+ b      2
+ c      3
+```
+
+---
+
+# 18. ➕ 新增 Dictionary 資料
+
+例如：
+
+```python
+d["d"] = 4
+```
+
+就會新增：
+
+```text
+"d" → 4
+```
+
+---
+
+# 19. ✏️ 修改 Dictionary 資料
+
+如果 key 已經存在：
+
+```python
+d["a"] = 5
+```
+
+就不是新增，而是：
+
+> ✏️ 把原本 `"a"` 的 value 改成 `5`。
+
+例如：
+
+```text
+原本：
+"a" → 1
+
+修改後：
+"a" → 5
+```
+
+---
+
+# 20. 🗑️ `pop()` 刪除 Dictionary 資料
+
+例如：
+
+```python
+d.pop("a")
+```
+
+意思：
+
+> 把 key `"a"` 的資料刪掉。
+
+而且會回傳被刪掉的 value。
+
+---
+
+## 🛡️ 如果 key 不存在
+
+可以給一個「找不到時要顯示的東西」：
+
+```python
+d.pop("e", "not found")
+```
+
+如果沒有 `"e"`：
+
+```text
+not found
+```
+
+這樣比較安全。
+
+---
+
+# 21. 🔍 `in`：檢查有沒有這個 Key
+
+例如：
+
+```python
+print("a" in d)
+```
+
+如果有：
+
+```text
+True
+```
+
+如果沒有：
+
+```text
+False
+```
+
+### ⚠️ Dictionary 的 `in`
+
+主要是檢查：
+
+> 🔑 **Key**
+
+不是檢查 value。
+
+---
+
+# 22. 📦 List 和 Dictionary 的 `in`
+
+這個要特別記！
+
+List：
+
+```text
+📦 List → 用 index 找位置
+```
+
+Dictionary：
+
+```text
+📖 Dict → 用 key 找資料
+```
+
+所以兩個的概念不一樣。
+
+---
+
+# 23. 🧩 Dictionary 裡面還可以放 List 和 Dictionary
+
+這就是今天比較進階的部分。
+
+例如：
+
+```python
+d = {
+    "a": [1, 2, 3],
+    "b": {
+        "c": 4,
+        "d": 5
+    }
+}
+```
+
+這可以想成：
+
+```text
+📖 Dictionary
+│
+├── 🔑 a
+│    └── 📦 [1, 2, 3]
+│
+└── 🔑 b
+     └── 📖 Dictionary
+          ├── c → 4
+          └── d → 5
+```
+
+---
+
+# 24. 🔍 一層一層找資料
+
+```python
+d["a"]
+```
+
+得到：
+
+```text
+[1, 2, 3]
+```
+
+再：
+
+```python
+d["a"][0]
+```
+
+得到：
+
+```text
+1
+```
+
+因為：
+
+```text
+d["a"] → [1, 2, 3]
+             ↑
+           index 0
+```
+
+---
+
+## Dictionary 裡的 Dictionary
+
+```python
+d["b"]
+```
+
+得到：
+
+```python
+{"c": 4, "d": 5}
+```
+
+再：
+
+```python
+d["b"]["c"]
+```
+
+得到：
+
+```text
+4
+```
+
+就是：
+
+> 🔑 先找 `b` → 再找 `c`。
+
+---
+
+# 25. 🏫 成績登記系統
+
+今天做了一個很厲害的例子：
+
+```python
+grade = {
+    "小明": {
+        "國文": [90, 80, 70],
+        "數學": [85, 75, 65],
+        "英文": [95, 85, 75]
+    },
+
+    "小美": {
+        "國文": [88, 78, 68],
+        "數學": [83, 73, 63],
+        "英文": [93, 83, 73]
+    }
+}
+```
+
+這個結構可以想成：
+
+```text
+🏫 成績系統
+│
+├── 👦 小明
+│    ├── 國文 → 📦 [90,80,70]
+│    ├── 數學 → 📦 [85,75,65]
+│    └── 英文 → 📦 [95,85,75]
+│
+└── 👧 小美
+     ├── 國文 → 📦 [88,78,68]
+     ├── 數學 → 📦 [83,73,63]
+     └── 英文 → 📦 [93,83,73]
+```
+
+這就是：
+
+> 📖 Dictionary 裡面有 Dictionary，裡面又有 List！
+
+---
+
+# 26. 🧮 計算平均
+
+例如小明的國文：
+
+```python
+chinese = [90, 80, 70]
+```
+
+使用：
+
+```python
+sum(chinese)
+```
+
+得到：
+
+```text
+240
+```
+
+再：
+
+```python
+len(chinese)
+```
+
+得到：
+
+```text
+3
+```
+
+所以：
+
+```python
+avg = sum(chinese) / len(chinese)
+```
+
+就是：
+
+```text
+240 ÷ 3 = 80
+```
+
+---
+
+# 27. 🔢 `:.2f`
+
+今天看到：
+
+```python
+f"{avg:.2f}"
+```
+
+這是用來控制小數位數。
+
+`.2f` 意思是：
+
+> **顯示小數點後 2 位。**
+
+例如：
+
+```text
+80
+```
+
+可能顯示成：
+
+```text
+80.00
+```
+
+---
+
+# 28. 🖼️ Streamlit 顯示圖片
+
+今天也開始玩圖片了！
+
+```python
+st.image("image/apple.png", width=300)
+```
+
+意思是：
+
+> 🖼️ 把指定路徑的圖片顯示在網頁上。
+
+`width=300`：
+
+> 📏 把圖片寬度設定成 300。
+
+---
+
+# 29. 📁 `os.listdir()`
+
+今天還用了：
+
+```python
+import os
+```
+
+然後：
+
+```python
+image_files = os.listdir(image_folder)
+```
+
+它可以：
+
+> 📁 找出資料夾裡有哪些檔案。
+
+例如資料夾：
+
+```text
+image/
+├── apple.png
+├── banana.png
+└── cat.png
+```
+
+使用：
+
+```python
+os.listdir("image")
+```
+
+可能得到：
+
+```python
+["apple.png", "banana.png", "cat.png"]
+```
+
+---
+
+# 30. 🖼️ 用 `for` 一次顯示很多圖片
+
+這裡把今天學的東西全部串起來了：
+
+```python
+for image_file in image_files:
+    st.image(f"{image_folder}/{image_file}", width=image_size)
+```
+
+意思：
+
+> 📁 把資料夾裡每一張圖片拿出來，然後顯示。
+
+可以想成：
+
+```text
+📁 image
+ │
+ ├── 🍎 apple.png
+ ├── 🍌 banana.png
+ └── 🐱 cat.png
+       │
+       ▼
+     🔁 for
+       │
+       ▼
+   🖼️ 一張一張顯示
+```
+
+---
+
+# 31. 📏 使用者控制圖片大小
+
+今天還讓使用者自己選圖片大小：
+
+```python
+image_size = st.number_input(
+    "請輸入圖片大小",
+    min_value=50,
+    max_value=500,
+    step=50,
+    value=100
+)
+```
+
+所以使用者可以選：
+
+```text
+50
+100
+150
+200
+...
+500
+```
+
+然後：
+
+```python
+st.image(..., width=image_size)
+```
+
+就會根據使用者輸入的大小顯示。
+
+這就是：
+
+> 🧑‍💻 **讓使用者控制程式！**
+
+---
+
+# 32. 🖼️ `use_container_width=True`
+
+也可以：
+
+```python
+st.image(
+    f"{image_folder}/{image_file}",
+    use_container_width=True
+)
+```
+
+意思是：
+
+> 🖼️ 讓圖片盡量使用目前網頁容器的寬度。
+
+---
+
+# 33. ✅ `st.success()`
+
+最後還學到了：
+
+```python
+st.success("購買成功")
+```
+
+它會在網頁上顯示一個成功訊息。
+
+可以拿來做：
+
+```text
+✅ 購買成功
+✅ 登入成功
+✅ 遊戲成功
+```
+
+等等。
+
+---
+
+# 🧠 今日 Python 技能樹更新！
+
+你之前的技能樹：
+
+```text
+🐍 Python 小遊戲
+       │
+       ├── 🌐 Streamlit
+       ├── 🤔 if / elif / else
+       ├── 🔁 for
+       └── 📦 List
+```
+
+今天可以升級成：
+
+```text
+                 🐍 Python 小遊戲
+                        │
+          ┌─────────────┴─────────────┐
+          ▼                           ▼
+      🌐 Streamlit                  🐍 Python
+          │                           │
+    ┌─────┼──────┐             ┌──────┼──────┐
+    ▼     ▼      ▼             ▼      ▼      ▼
+   🔘    📝     🖼️             🔁     🎲     📖
+  Button Input  Image          while  random  Dict
+    │                           │
+    ▼                           ▼
+ balloons                    🛑 break
+ snow
+ columns
+ session_state
+ rerun
+    │
+    ▼
+  🤔 判斷
+    │
+ if / elif / else
+    │
+    ▼
+  📦 List
+    │
+ append / remove / sort / pop
+    │
+    ▼
+  📖 Dictionary
+    │
+ ┌──┼──────────────┐
+ ▼  ▼       ▼      ▼
+keys values items  pop
+    │
+    ▼
+ 🧩 巢狀資料
+ Dict → Dict → List
+```
+
+# 🏆 今天最重要的 10 個重點
+
+| ⭐  | 指令 / 概念        | 簡單意思               |
+| -- | -------------- | ------------------ |
+| 1  | `while`        | 條件是 True 就一直做      |
+| 2  | `break`        | 直接離開迴圈             |
+| 3  | `random`       | 讓 Python 隨機選東西     |
+| 4  | `randrange()`  | 在範圍中隨機選數字，結束值不包含   |
+| 5  | `randint()`    | 在範圍中隨機選整數，結束值包含    |
+| 6  | `dict`         | 用 Key → Value 儲存資料 |
+| 7  | `keys()`       | 取得所有 Key           |
+| 8  | `values()`     | 取得所有 Value         |
+| 9  | `items()`      | 同時取得 Key 和 Value   |
+| 10 | `os.listdir()` | 找出資料夾裡有哪些檔案        |
+
+## 🚀 今天最大的進步
+
+你現在已經可以把：
+
+**🎲 random + 🔁 while + 🤔 if + 📖 dict + 📦 list + 🌐 Streamlit + 🖼️ 圖片**
+
+全部組合在一起。
+
+這已經不是只會「印出 Hello World」的程度了 😂
+
+你現在已經開始進入：
+
+> 🎮 **Python 小遊戲 + 🌐 網頁程式 + 📊 資料處理**
+
+的階段！🐍🔥
+
     '''
 
 
