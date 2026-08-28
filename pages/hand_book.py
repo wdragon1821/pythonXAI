@@ -3993,4 +3993,1131 @@ keys values items  pop
 
 with st.expander("課堂筆記 CLASS 5"):
     '''
+    # 🐍 Python 今日課程筆記
+
+## 🛒 購物平台 + 🤖 AI 聊天機器人
+
+今天的課程超級重要！🎉
+因為你開始把以前學過的：
+
+**Dictionary 📖 + List 📦 + Streamlit 🌐 + Button 🔘 + Session State 🧠 + AI 🤖**
+
+全部組合起來，做出真正的**購物網站和 AI 聊天機器人**！
+
+---
+
+# 🛒 第一部分：Python 購物平台
+
+## 1. 📖 用 Dictionary 存商品資料
+
+今天的商品資料長這樣：
+
+```python
+products = {
+    "apple": {
+        "image": "image/apple.png",
+        "price": 10,
+        "stock": 10
+    },
+
+    "orange": {
+        "image": "image/orange.png",
+        "price": 10,
+        "stock": 10
+    }
+}
+```
+
+可以把它想成一間商店：
+
+```text
+🛒 商店
+│
+├── 🍎 apple
+│   ├── 🖼️ 圖片
+│   ├── 💰 價格
+│   └── 📦 庫存
+│
+└── 🍊 orange
+    ├── 🖼️ 圖片
+    ├── 💰 價格
+    └── 📦 庫存
+```
+
+每個商品都是一個 Dictionary。
+
+---
+
+# 2. 🧩 Dictionary 裡面放 Dictionary
+
+例如：
+
+```python
+products["apple"]
+```
+
+可以得到：
+
+```python
+{
+    "image": "image/apple.png",
+    "price": 10,
+    "stock": 10
+}
+```
+
+再往裡面找：
+
+```python
+products["apple"]["price"]
+```
+
+就是：
+
+```text
+10
+```
+
+所以：
+
+```python
+products["apple"]["stock"]
+```
+
+就是：
+
+```text
+10
+```
+
+📌 記住：
+
+```text
+products
+   ↓
+"apple"
+   ↓
+"stock"
+   ↓
+10
+```
+
+---
+
+# 3. 🧠 `session_state`
+
+今天再次使用：
+
+```python
+st.session_state
+```
+
+它可以想成：
+
+> 🧠 **Streamlit 的記憶盒子**
+
+例如：
+
+```python
+if "products" not in st.session_state:
+    st.session_state.products = products
+```
+
+意思是：
+
+> 如果記憶盒裡還沒有 `products`，就把商品資料放進去。
+
+---
+
+## 為什麼需要它？
+
+Streamlit 按下按鈕後，程式會重新執行。
+
+如果沒有 `session_state`：
+
+```text
+買了一個蘋果
+     ↓
+程式重新執行
+     ↓
+🍎 庫存又變回 10 😱
+```
+
+有了 `session_state`：
+
+```text
+買了一個蘋果
+     ↓
+🧠 記住庫存
+     ↓
+🍎 10 → 9
+```
+
+所以：
+
+> `session_state` = 🧠 **讓 Streamlit 記住資料**
+
+---
+
+# 4. 🏷️ `st.title()`
+
+```python
+st.title("購物平台")
+```
+
+就是在網頁上顯示：
+
+# 購物平台
+
+它適合用來做大標題。
+
+---
+
+# 5. 🔢 `st.number_input()`
+
+```python
+number = st.number_input(
+    "請輸入欄位個數",
+    min_value=1,
+    max_value=5,
+    step=1,
+    value=4
+)
+```
+
+讓使用者輸入數字。
+
+這裡：
+
+| 指令          | 意思     |
+| ----------- | ------ |
+| `min_value` | 最小值    |
+| `max_value` | 最大值    |
+| `step`      | 每次增加多少 |
+| `value`     | 預設值    |
+
+所以：
+
+```python
+min_value=1
+max_value=5
+```
+
+代表：
+
+> 可以選 1～5。
+
+---
+
+# 6. 📊 `st.columns()`
+
+今天學到很重要的：
+
+```python
+columns = st.columns(number)
+```
+
+它可以把網頁切成幾個欄位。
+
+例如：
+
+```python
+st.columns(2)
+```
+
+會變成：
+
+```text
+┌──────────┬──────────┐
+│  欄位 1  │  欄位 2  │
+└──────────┴──────────┘
+```
+
+如果：
+
+```python
+st.columns(4)
+```
+
+就是：
+
+```text
+┌────┬────┬────┬────┐
+│ 1  │ 2  │ 3  │ 4  │
+└────┴────┴────┴────┘
+```
+
+這非常適合拿來做：
+
+> 🛒 商品排列
+
+---
+
+# 7. 📋 `list()`
+
+今天看到：
+
+```python
+product_names = list(st.session_state.products.keys())
+```
+
+我們之前學過：
+
+```python
+products.keys()
+```
+
+可以取得所有商品的 Key。
+
+例如：
+
+```text
+apple
+orange
+bg
+banana
+```
+
+再使用：
+
+```python
+list()
+```
+
+把它變成 List。
+
+結果：
+
+```python
+["apple", "orange", "bg", "banana"]
+```
+
+所以：
+
+```text
+Dictionary 🔑
+     ↓
+keys()
+     ↓
+list()
+     ↓
+📦 List
+```
+
+---
+
+# 8. 🔁 `enumerate()`
+
+今天看到：
+
+```python
+for i, name in enumerate(product_names):
+```
+
+`enumerate()` 可以讓我們一次得到：
+
+> 🔢 編號 + 📦 資料
+
+例如：
+
+```python
+fruits = ["apple", "banana", "orange"]
+```
+
+使用：
+
+```python
+for i, fruit in enumerate(fruits):
+    print(i, fruit)
+```
+
+結果：
+
+```text
+0 apple
+1 banana
+2 orange
+```
+
+所以：
+
+```text
+i       → 🔢 編號
+name    → 🏷️ 商品名稱
+```
+
+---
+
+# 9. 🛑 `break`
+
+今天購物平台也使用：
+
+```python
+if i >= number:
+    break
+```
+
+意思是：
+
+> 如果商品數量已經超過我們設定的欄位數，就停止。
+
+例如只有 2 個欄位：
+
+```text
+📊 欄位
+
+🍎 apple     🍊 orange
+
+第三個商品？
+❌ 不顯示
+```
+
+---
+
+# 10. 🖼️ 商品圖片
+
+```python
+st.image(
+    product["image"],
+    use_container_width=True
+)
+```
+
+從商品 Dictionary 裡拿出：
+
+```python
+product["image"]
+```
+
+得到圖片位置。
+
+然後用 `st.image()` 顯示。
+
+---
+
+# 11. 💰 商品價格
+
+```python
+st.write(f"price: {product['price']}")
+```
+
+如果價格是：
+
+```python
+10
+```
+
+就會顯示：
+
+```text
+price: 10
+```
+
+---
+
+# 12. 📦 商品庫存
+
+```python
+st.write(f"left: {product['stock']}")
+```
+
+例如：
+
+```text
+left: 10
+```
+
+就是：
+
+> 還剩 10 個。
+
+---
+
+# 13. 🔘 購買按鈕
+
+```python
+if st.button(f"buy {name}", key=f"buy_{name}"):
+```
+
+如果商品是 apple：
+
+```text
+🔘 buy apple
+```
+
+按下去後就會執行 `if` 裡面的程式。
+
+---
+
+# 14. 📦 庫存減少
+
+這一行超重要：
+
+```python
+product["stock"] -= 1
+```
+
+它等於：
+
+```python
+product["stock"] = product["stock"] - 1
+```
+
+例如：
+
+```text
+原本：
+📦 10
+
+買一個：
+
+📦 9
+```
+
+---
+
+# 15. 🚫 判斷有沒有庫存
+
+```python
+if product["stock"] > 0:
+```
+
+意思：
+
+> 如果庫存大於 0，就可以購買。
+
+如果沒有：
+
+```python
+else:
+    st.session_state.message = "庫存不足！"
+```
+
+就顯示：
+
+```text
+❌ 庫存不足！
+```
+
+---
+
+# 16. ✅ `st.success()`
+
+```python
+st.success("購買成功！")
+```
+
+會顯示成功訊息：
+
+```text
+✅ 購買成功！
+```
+
+例如：
+
+```python
+st.success("新增庫存成功！")
+```
+
+就是：
+
+```text
+✅ 新增庫存成功！
+```
+
+---
+
+# 📦 第二部分：新增商品庫存
+
+今天還做了「補貨」功能！
+
+---
+
+# 17. 🔽 `st.selectbox()`
+
+```python
+selected_product = st.selectbox(
+    "選擇商品",
+    product_names
+)
+```
+
+它會產生一個下拉選單。
+
+例如：
+
+```text
+選擇商品 ▼
+
+🍎 apple
+🍊 orange
+🍌 banana
+```
+
+使用者可以選一個商品。
+
+---
+
+# 18. ➕ 增加庫存
+
+```python
+st.session_state.products[selected_product]["stock"] += add_stock
+```
+
+這一行看起來很長，但拆開就很簡單：
+
+```text
+🧠 session_state
+     ↓
+products
+     ↓
+選擇的商品
+     ↓
+stock
+     ↓
+➕ add_stock
+```
+
+例如：
+
+```text
+🍎 apple
+原本：10
+
+新增：5
+
+結果：15
+```
+
+---
+
+# 🤖 第三部分：真正的 AI
+
+今天開始學：
+
+> 🤖 **Python + AI**
+
+使用：
+
+```python
+import openai
+```
+
+就是把 OpenAI 的功能匯入 Python。
+
+---
+
+# 19. 🔐 `.env`：保護 API Key
+
+今天用了：
+
+```python
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+```
+
+然後：
+
+```python
+openai.api_key = os.getenv("OPENAI_API_KEY")
+```
+
+可以把秘密的 API Key 放在環境變數裡。
+
+### ⚠️ 非常重要
+
+API Key 就像：
+
+> 🔑 **AI 帳號的鑰匙**
+
+不要把自己的 API Key 放在公開的 GitHub 或直接貼給別人。
+
+---
+
+# 20. 🤖 `openai.chat.completions.create()`
+
+這是讓 Python：
+
+> 📩 把問題送給 AI。
+
+例如：
+
+```python
+response = openai.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[
+        {
+            "role": "user",
+            "content": user_input
+        }
+    ]
+)
+```
+
+可以想成：
+
+```text
+👤 你
+  │
+  │ 問問題
+  ▼
+🐍 Python
+  │
+  │ API
+  ▼
+🤖 AI
+  │
+  │ 回答
+  ▼
+🐍 Python
+  │
+  ▼
+👤 你
+```
+
+---
+
+# 21. 🧑‍💻 `role`
+
+AI 對話裡有不同角色。
+
+### `user`
+
+```python
+{"role": "user", "content": user_input}
+```
+
+代表：
+
+> 👤 使用者說的話。
+
+### `assistant`
+
+```python
+{"role": "assistant", "content": assistant_response}
+```
+
+代表：
+
+> 🤖 AI 說的話。
+
+### `system`
+
+```python
+{
+    "role": "system",
+    "content": "請用繁體中文進行後續對話"
+}
+```
+
+代表：
+
+> ⚙️ 給 AI 的規則或指示。
+
+---
+
+# 22. 🧠 AI 的聊天記憶
+
+一開始：
+
+```python
+messages = [
+    {
+        "role": "system",
+        "content": "請用繁體中文進行後續對話"
+    }
+]
+```
+
+然後使用者說話：
+
+```python
+messages.append({
+    "role": "user",
+    "content": user_input
+})
+```
+
+AI 回答：
+
+```python
+messages.append({
+    "role": "assistant",
+    "content": assistant_response
+})
+```
+
+所以 `messages` 會越來越長：
+
+```text
+📦 messages
+
+👤 你好
+🤖 你好！有什麼可以幫你？
+
+👤 我叫 Paul
+🤖 很高興認識你！
+
+👤 我叫什麼？
+🤖 你叫 Paul。
+```
+
+這就是：
+
+> 🧠 **聊天記憶**
+
+---
+
+# 23. 📦 `append()`
+
+今天再次使用：
+
+```python
+messages.append(...)
+```
+
+`append()` 的意思是：
+
+> ➕ 把新的東西放到 List 最後面。
+
+例如：
+
+```python
+a = []
+
+a.append("Hello")
+a.append("Hi")
+```
+
+結果：
+
+```python
+["Hello", "Hi"]
+```
+
+---
+
+# 24. 🚪 `exit` 和 `quit`
+
+今天的 AI 程式有：
+
+```python
+if user_input.lower() in ["exit", "quit"]:
+    break
+```
+
+意思是：
+
+如果使用者輸入：
+
+```text
+exit
+```
+
+或：
+
+```text
+quit
+```
+
+就：
+
+```python
+break
+```
+
+離開 `while`。
+
+也就是：
+
+> 🚪 輸入 exit / quit → 結束聊天。
+
+---
+
+# 25. 🔤 `.lower()`
+
+```python
+user_input.lower()
+```
+
+可以把英文變成小寫。
+
+例如：
+
+```text
+EXIT
+Exit
+eXiT
+```
+
+都會變成：
+
+```text
+exit
+```
+
+所以程式比較容易判斷。
+
+---
+
+# 🌐 第四部分：把 AI 做成 Streamlit 網頁
+
+今天最酷的部分！
+
+你不只是做 Terminal AI，而是把它變成：
+
+> 🌐 **網頁版 AI 聊天室**
+
+---
+
+# 26. 💬 `st.chat_input()`
+
+```python
+prompt = st.chat_input("請輸入想對話的訊息")
+```
+
+會在網頁下面產生聊天輸入框。
+
+使用者可以輸入：
+
+```text
+┌──────────────────────────┐
+│ 請輸入想對話的訊息       │
+└──────────────────────────┘
+```
+
+---
+
+# 27. 💬 `st.chat_message()`
+
+```python
+st.chat_message("user")
+```
+
+代表：
+
+> 👤 使用者的聊天訊息。
+
+```python
+st.chat_message("assistant")
+```
+
+代表：
+
+> 🤖 AI 的聊天訊息。
+
+所以可以做出：
+
+```text
+👤 你好！
+
+              🤖 哈囉！你好！
+```
+
+很像真正的 ChatGPT！🔥
+
+---
+
+# 28. 🧹 清除聊天紀錄
+
+今天有：
+
+```python
+if st.button("🗑️"):
+    ss.history = []
+    st.rerun()
+```
+
+按下垃圾桶：
+
+```text
+🗑️
+ ↓
+📦 history 清空
+ ↓
+🔄 網頁重新執行
+ ↓
+💬 聊天紀錄消失
+```
+
+---
+
+# 29. ⚙️ 可以選擇 AI 模型
+
+今天使用：
+
+```python
+st.selectbox(
+    "AI模型",
+    ["gpt-4o-mini", "gpt-4", "gpt-4o-searcher-preview"]
+)
+```
+
+這樣使用者可以從下拉選單選擇模型。
+
+概念是：
+
+```text
+🤖 AI模型 ▼
+
+gpt-4o-mini
+gpt-4
+其他模型
+```
+
+⚠️ 實際能不能使用某個模型，要看你的 API 帳號目前有哪些模型可以使用。
+
+---
+
+# 30. ⚙️ System Message
+
+今天還可以讓使用者自己修改：
+
+```python
+ss.system_message = st.text_input(
+    "系統提示",
+    ss.system_message
+)
+```
+
+例如輸入：
+
+```text
+你是一個很搞笑的 AI
+```
+
+AI 就會收到這個規則。
+
+所以：
+
+> `system_message` = 🧠 **告訴 AI「你應該怎麼回答」的規則**
+
+---
+
+# 🧠 今日超級重點
+
+今天其實學了兩個大型專案。
+
+## 🛒 購物平台
+
+```text
+                 🛒 購物平台
+                      │
+             ┌────────┴────────┐
+             ▼                 ▼
+        📖 Dictionary       🌐 Streamlit
+             │                 │
+       ┌─────┼─────┐      ┌────┼────┐
+       ▼     ▼     ▼      ▼    ▼    ▼
+     商品   價格  庫存   Button Image 欄位
+                         │
+                         ▼
+                       🛒 購買
+                         │
+                         ▼
+                    📦 stock - 1
+                         │
+                         ▼
+                    🧠 session_state
+```
+
+---
+
+## 🤖 AI 聊天機器人
+
+```text
+                  🤖 AI
+                   │
+        ┌──────────┴──────────┐
+        ▼                     ▼
+    🐍 Python              🌐 Streamlit
+        │                     │
+        ▼                     ▼
+   OpenAI API            chat_input
+        │                     │
+        ▼                     ▼
+     AI 模型              chat_message
+        │                     │
+        └──────────┬──────────┘
+                   ▼
+               📦 history
+                   │
+                   ▼
+                🧠 記憶
+```
+
+---
+
+# 🏆 今天的技能表
+
+| 🧠 東西               | 📚 你學到什麼            |
+| ------------------- | ------------------- |
+| `Dictionary`        | 儲存商品資料              |
+| `List`              | 儲存聊天紀錄              |
+| `keys()`            | 找商品名稱               |
+| `list()`            | 把資料變成 List          |
+| `enumerate()`       | 同時取得編號和資料           |
+| `append()`          | 新增聊天紀錄              |
+| `if / elif / else`  | 判斷購買和 AI 指令         |
+| `break`             | 結束迴圈                |
+| `session_state`     | 🧠 讓 Streamlit 記住資料 |
+| `st.columns()`      | 📊 建立商品欄位           |
+| `st.selectbox()`    | 🔽 下拉選單             |
+| `st.number_input()` | 🔢 輸入數字             |
+| `st.button()`       | 🔘 按鈕               |
+| `st.chat_input()`   | 💬 AI 輸入框           |
+| `st.chat_message()` | 💬 顯示聊天             |
+| `st.success()`      | ✅ 成功訊息              |
+| `st.rerun()`        | 🔄 重新執行網頁           |
+| `openai`            | 🤖 連接 AI            |
+| `messages`          | 🧠 保存 AI 對話         |
+| `system`            | ⚙️ 告訴 AI 回答規則       |
+| `user`              | 👤 使用者訊息            |
+| `assistant`         | 🤖 AI 訊息            |
+| `.env`              | 🔐 保護 API Key       |
+
+---
+
+# 🚀 你現在的 Python 技能樹
+
+```text
+                         🐍 PYTHON
+                            │
+          ┌─────────────────┴─────────────────┐
+          ▼                                   ▼
+       🎮 小遊戲                           🌐 網頁
+          │                                   │
+     ┌────┼────┐                    ┌─────────┼─────────┐
+     ▼    ▼    ▼                    ▼         ▼         ▼
+   🔁    🎲   🤔                  Button    Input    Columns
+  while random if                  │         │         │
+     │                             ▼         ▼         ▼
+   break                       🛒 購物平台  💬 聊天   📊 排版
+                                   │
+                                   ▼
+                              🧠 session_state
+                                   │
+                    ┌──────────────┴──────────────┐
+                    ▼                             ▼
+                 📦 List                      📖 Dict
+                    │                             │
+              append()                    keys / values
+                                                │
+                                                ▼
+                                          🛒 商品資料
+                                                │
+                                                ▼
+                                             🤖 AI
+                                                │
+                                          OpenAI API
+                                                │
+                                                ▼
+                                          💬 AI 聊天
+```
+
+🎉 **這代表你現在已經開始學「把很多 Python 知識組合成完整的程式」了！**
+從 `print()`、變數、`if`、`for`、List，一路到現在的 **購物平台 + AI 聊天機器人**，進步非常大。 🐍🔥
+
     '''
